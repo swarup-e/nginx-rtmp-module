@@ -1126,7 +1126,7 @@ ngx_rtmp_record_node_avd(ngx_rtmp_session_t *s, ngx_rtmp_record_rec_ctx_t *rctx,
                 ngx_rtmp_record_node_open(s, rctx);
             }
     }
-    else if (!rctx->failed  && !(rracf->flags & NGX_RTMP_RECORD_MANUAL)
+    else if (!rctx->failed  && !(rracf->flags & NGX_RTMP_RECORD_MANUAL))
     {
         ngx_rtmp_record_node_open(s, rctx);
     }
