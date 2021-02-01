@@ -1266,7 +1266,7 @@ ngx_rtmp_record_recorder(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         return NGX_CONF_ERROR;
     }
 
-#if defined(nginx_version) && nginx_version >= 1009011
+#if (nginx_version >= 1009011)
     modules = cf->cycle->modules;
 #else
     modules = ngx_modules;
@@ -1279,8 +1279,7 @@ ngx_rtmp_record_recorder(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         module = modules[i]->ctx;
 
         if (module->create_app_conf) {
-            ctx->app_conf[modules[i]->ctx_index] =
-                                module->create_app_conf(cf);
+            ctx->app_conf[modules[i]->ctx_index] = module->create_app_conf(cf);
             if (ctx->app_conf[modules[i]->ctx_index] == NULL) {
                 return NGX_CONF_ERROR;
             }

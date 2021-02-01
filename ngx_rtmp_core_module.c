@@ -499,7 +499,8 @@ ngx_rtmp_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     in_port_t                   port;
     ngx_str_t                  *value;
     ngx_url_t                   u;
-    ngx_uint_t                  i;
+    ngx_uint_t                  i, m;
+    ngx_module_t              **modules;
     struct sockaddr            *sa;
     ngx_rtmp_listen_t          *ls;
     struct sockaddr_in         *sin;
@@ -589,6 +590,18 @@ ngx_rtmp_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     ls->socklen = u.socklen;
     ls->wildcard = u.wildcard;
     ls->ctx = cf->ctx;
+
+#if (nginx_version >= 1009011)
+    modules = cf->cycle->modules;
+#else
+    modules = ngx_modules;
+#endif
+
+    for (m = 0; modules[m]; m++) {
+        if (modules[m]->type != NGX_RTMP_MODULE) {
+            continue;
+        }
+    }
 
     for (i = 2; i < cf->args->nelts; i++) {
 

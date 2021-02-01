@@ -102,11 +102,13 @@ ngx_rtmp_block(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     *(ngx_rtmp_conf_ctx_t **) conf = ctx;
 
     /* count the number of the rtmp modules and set up their indices */
-#if defined(nginx_version) && nginx_version >= 1009011
-    modules = cf->cycle->modules;
+
+#if (nginx_version >= 1009011)
+
+    ngx_rtmp_max_module = ngx_count_modules(cf->cycle, NGX_RTMP_MODULE);
+
 #else
-    modules = ngx_modules;
-#endif
+
     ngx_rtmp_max_module = 0;
     for (m = 0; modules[m]; m++) {
         if (modules[m]->type != NGX_RTMP_MODULE) {
@@ -115,6 +117,8 @@ ngx_rtmp_block(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
         modules[m]->ctx_index = ngx_rtmp_max_module++;
     }
+
+#endif
 
 
     /* the rtmp main_conf context, it is the same in the all rtmp contexts */
@@ -152,6 +156,12 @@ ngx_rtmp_block(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
      * create the main_conf's, the null srv_conf's, and the null app_conf's
      * of the all rtmp modules
      */
+
+#if (nginx_version >= 1009011)
+    modules = cf->cycle->modules;
+#else
+    modules = ngx_modules;
+#endif
 
     for (m = 0; modules[m]; m++) {
         if (modules[m]->type != NGX_RTMP_MODULE) {
