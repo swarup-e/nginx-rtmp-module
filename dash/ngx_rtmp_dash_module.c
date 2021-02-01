@@ -273,7 +273,6 @@ ngx_rtmp_dash_write_playlist(ngx_rtmp_session_t *s)
     struct tm                  tm;
     ngx_str_t                  noname, *name;
     ngx_uint_t                 i, frame_rate_num, frame_rate_denom;
-    ngx_uint_t                 depth_msec, depth_sec;
     ngx_uint_t                 update_period, update_period_msec;
     ngx_uint_t                 buffer_time, buffer_time_msec;
     ngx_uint_t                 presentation_delay, presentation_delay_msec;
@@ -286,10 +285,6 @@ ngx_rtmp_dash_write_playlist(ngx_rtmp_session_t *s)
     ngx_rtmp_playlist_t        v;
 
     static u_char              buffer[NGX_RTMP_DASH_BUFSIZE];
-    static u_char              avaliable_time[NGX_RTMP_DASH_GMT_LENGTH];
-    static u_char              publish_time[NGX_RTMP_DASH_GMT_LENGTH];
-    static u_char              buffer_depth[sizeof("P00Y00M00DT00H00M00.000S")];
-    static u_char              frame_rate[(NGX_INT_T_LEN * 2) + 2];
     static u_char              start_time[sizeof("1970-09-28T12:00:00Z")];
     static u_char              pub_time[sizeof("1970-09-28T12:00:00Z")];
 
