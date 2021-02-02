@@ -451,17 +451,20 @@ ngx_rtmp_core_application(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 #else
     modules = ngx_modules;
 #endif
-        if (modules[i]->type != NGX_RTMP_MODULE) {
+        for (i = 0; modules[i]; i++) {
+            if (modules[i]->type != NGX_RTMP_MODULE) {
+                continue;
+            }
 
-        module = modules[i]->ctx;
+            module = modules[i]->ctx;
 
-        if (module->create_app_conf) {
-            ctx->app_conf[modules[i]->ctx_index] = module->create_app_conf(cf);
-            if (ctx->app_conf[modules[i]->ctx_index] == NULL) {
-                return NGX_CONF_ERROR;
+            if (module->create_app_conf) {
+                ctx->app_conf[modules[i]->ctx_index] = module->create_app_conf(cf);
+                if (ctx->app_conf[modules[i]->ctx_index] == NULL) {
+                    return NGX_CONF_ERROR;
+                }
             }
         }
-    }
 
     cacf = ctx->app_conf[ngx_rtmp_core_module.ctx_index];
     cacf->app_conf = ctx->app_conf;
