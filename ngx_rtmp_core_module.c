@@ -364,7 +364,6 @@ ngx_rtmp_core_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 #else
     modules = ngx_modules;
 #endif
-
     for (m = 0; modules[m]; m++) {
         if (modules[m]->type != NGX_RTMP_MODULE) {
             continue;
@@ -452,11 +451,7 @@ ngx_rtmp_core_application(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 #else
     modules = ngx_modules;
 #endif
-
-    for (i = 0; modules[i]; i++) {
         if (modules[i]->type != NGX_RTMP_MODULE) {
-            continue;
-        }
 
         module = modules[i]->ctx;
 
@@ -609,7 +604,6 @@ ngx_rtmp_core_listen(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
         if (ngx_strncmp(value[i].data, "ipv6only=o", 10) == 0) {
 #if (NGX_HAVE_INET6 && defined IPV6_V6ONLY)
-            struct sockaddr  *sa;
             u_char            buf[NGX_SOCKADDR_STRLEN];
 
             sa = (struct sockaddr *) ls->sockaddr;

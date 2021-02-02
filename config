@@ -1,5 +1,4 @@
 ngx_addon_name="ngx_rtmp_module"
-
 RTMP_CORE_MODULES="                                         \
                 ngx_rtmp_module                             \
                 ngx_rtmp_core_module                        \
@@ -85,6 +84,7 @@ RTMP_CORE_SRCS="                                            \
                 $ngx_addon_dir/hls/ngx_rtmp_hls_module.c    \
                 $ngx_addon_dir/dash/ngx_rtmp_dash_module.c  \
                 $ngx_addon_dir/hls/ngx_rtmp_mpegts.c        \
+                $ngx_addon_dir/hls/ngx_rtmp_mpegts_crc.c    \
                 $ngx_addon_dir/dash/ngx_rtmp_mp4.c          \
                 $ngx_addon_dir/ngx_rtmp_ssl_module.c        \
                 "
@@ -134,3 +134,6 @@ fi
 
 USE_OPENSSL=YES
 
+CFLAGS="$CFLAGS -I$ngx_addon_dir"
+# Debug build with all warnings as errors
+# CFLAGS="$CFLAGS -I$ngx_addon_dir -Wall -Wpointer-arith -Wno-unused-parameter -Werror"
